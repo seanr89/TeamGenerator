@@ -1,0 +1,13 @@
+{
+    "Players" :
+    [
+        {
+            "ID" : 1,
+            "Name": "Sean Rafferty"
+        },
+        {
+            "ID" : 2,
+            "Name": "Stephen Kelso"
+        }
+    ]
+}
