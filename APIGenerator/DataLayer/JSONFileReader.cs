@@ -2,17 +2,34 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using APIGenerator.Models.Utility;
+using APIGenerator.Utilities;
 using Microsoft.Extensions.Logging;
 
 namespace APIGenerator.DataLayer
 {
+    /// <summary>
+    /// JSON class to provide the geneation and reading of a JSON file for players and teams
+    /// </summary>
     public class JSONFileReader
     {
         public readonly ILogger _Logger;
         
+        /// <summary>
+        /// DI enabled constructor
+        /// </summary>
+        /// <param name="Logger"></param>
+        public JSONFileReader(ILogger<JSONFileReader> Logger)
+        {
+            _Logger = Logger;
+        }
+
+        /// <summary>
+        /// Constructor not to use DI
+        /// </summary>
         public JSONFileReader()
         {
-
+            _Logger = ApplicationLoggerProvider.CreateLogger<JSONFileReader>();
         }
 
         /// <summary>
@@ -22,8 +39,7 @@ namespace APIGenerator.DataLayer
         /// <returns>A string object ("") object if no file can be found</returns>
         public string ReadFileContentsForContentType(FileType Type)
         {
-            throw new NotImplementedException();
-
+            _Logger.LogInformation(LoggingEvents.METHOD_CALL, $"Method: {UtilityMethods.GetCallerMemberName()}");
             string result = "";
             string FileLocation = GenerateFileLocationFromType(Type);
             FileStream File = new  FileStream(FileLocation, FileMode.Open);
@@ -44,14 +60,24 @@ namespace APIGenerator.DataLayer
             }
         }
 
+        /// <summary>
+        /// Private method to generate the filelocation string path based on the requested file type
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <returns></returns>
         string GenerateFileLocationFromType(FileType Type)
         {
-            throw new NotImplementedException();
-            string FileName = "";
+            string FileLocation = "";
             string location = @"..\APIGenerator\Data\";
-            FileName = String.Format("{0}{1}.json", location, GetFileNameFromFileType(Type));
+            FileLocation = String.Format("{0}{1}.json", location, GetFileNameFromFileType(Type));
+            return FileLocation;
         }
 
+        /// <summary>
+        /// Private method to handle the provisioning of the name of the file for the enum type
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <returns></returns>
         string GetFileNameFromFileType(FileType Type)
         {
             string result = "";
@@ -79,6 +105,9 @@ namespace APIGenerator.DataLayer
     }
 
 
+    /// <summary>
+    /// Enum of available file type options
+    /// </summary>
     public enum FileType
     {
         PLAYER,
