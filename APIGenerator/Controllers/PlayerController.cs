@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using APIGenerator.DataLayer;
 using APIGenerator.Models;
+using APIGenerator.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,7 +23,11 @@ namespace APIGenerator.Controllers
             _Logger = logger;
         }
 
-                // GET api/values
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        // GET api/values
         [HttpGet]
         public IActionResult Get()
         {
@@ -33,7 +38,23 @@ namespace APIGenerator.Controllers
             {
                 return NotFound();
             }
-            
+
+            IEnumerable<Player> Players;
+            try
+            {
+               Players = UtilityMethods.ConvertJsonStringToProvidedGenericType<IEnumerable<Player>>(FileContents);
+               if(Players == null && Players.Count() <= 0)
+               {
+                   return NotFound();
+               }
+               return Ok(Players);
+            }
+            catch(Exception e)
+            {
+                //TODO - Log the error
+                _Logger.LogError("1", $"Error in method {UtilityMethods.GetCallerMemberName()} with exception {e.Message}");
+                return BadRequest();
+            }
         }
 
     }

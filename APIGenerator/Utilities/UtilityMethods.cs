@@ -87,7 +87,7 @@ namespace APIGenerator.Utilities
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static T ConvertJsonStringToProvidedObject<T>(string json)
+        public static T ConvertJsonStringToProvidedGenericType<T>(string json)
         {
             T result;
             if(string.IsNullOrWhiteSpace(json))
