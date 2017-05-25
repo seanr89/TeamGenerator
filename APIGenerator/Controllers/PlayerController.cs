@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIGenerator.DataLayer;
+using APIGenerator.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -15,16 +17,25 @@ namespace APIGenerator.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public PlayerController()
+        public PlayerController(ILogger<PlayerController> logger)
         {
-
+            _Logger = logger;
         }
 
                 // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
             throw new NotImplementedException();
+
+            JSONFileReader reader = new JSONFileReader();
+            string FileContents = reader.ReadFileContentsForContentType(FileType.PLAYER);
+
+            if(string.IsNullOrWhiteSpace(FileContents))
+            {
+                return NotFound();
+            }
+            
         }
 
     }

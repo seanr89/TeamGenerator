@@ -76,8 +76,8 @@ namespace APIGenerator.DataLayer
         /// <summary>
         /// Private method to handle the provisioning of the name of the file for the enum type
         /// </summary>
-        /// <param name="Type"></param>
-        /// <returns></returns>
+        /// <param name="Type">The FileType used to query</param>
+        /// <returns>A string object denoting the name of the file</returns>
         string GetFileNameFromFileType(FileType Type)
         {
             string result = "";
@@ -96,6 +96,7 @@ namespace APIGenerator.DataLayer
                 }
                 default:
                 {
+                    result = "Unknown";
                     break;
                 }
             }

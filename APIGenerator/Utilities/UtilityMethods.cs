@@ -8,6 +8,9 @@ using System.Data;
 
 namespace APIGenerator.Utilities
 {
+    /// <summary>
+    /// Static UtilityMethods that can be used across a multitude of classes and objects
+    /// </summary>
     public static class UtilityMethods
     {
         private static readonly ILogger _Logger;

@@ -8,5 +8,7 @@ namespace APIGenerator.Models.Utility
     public class LoggingEvents
     {
         public const int GENERIC_ERROR = 0001;
+
+        public const int METHOD_CALL = 0002;
     }
 }
