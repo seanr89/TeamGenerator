@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace APIGenerator.Utilities
 {
@@ -73,6 +74,38 @@ namespace APIGenerator.Utilities
         public static string GenerateSQLFormattedDate(DateTime date)
         {
             return date.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        public static object ConvertJsonStringToObject(string json)
+        {
+            throw new NotImplementedException();
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static T ConvertJsonStringToProvidedObject<T>(string json)
+        {
+            T result;
+            if(string.IsNullOrWhiteSpace(json))
+            {
+                //throw new ArgumentException();  
+                _Logger.LogError("1", $"Exception with method {UtilityMethods.GetCallerMemberName()} but parameter content is empty");
+                return default(T);
+            }
+            try
+            {
+                result = JsonConvert.DeserializeObject<T>(json);
+                return (T)(object) result;
+            }
+            catch(JsonSerializationException e)
+            {
+                _Logger.LogError("1", $"Exception with method {UtilityMethods.GetCallerMemberName()} with exception: {e.Message}");
+                return default(T);
+            }
         }
     }
 }

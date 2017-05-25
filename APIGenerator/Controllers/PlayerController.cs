@@ -26,8 +26,6 @@ namespace APIGenerator.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            throw new NotImplementedException();
-
             JSONFileReader reader = new JSONFileReader();
             string FileContents = reader.ReadFileContentsForContentType(FileType.PLAYER);
 
