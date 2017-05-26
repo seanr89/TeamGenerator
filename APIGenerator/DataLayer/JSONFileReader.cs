@@ -18,7 +18,7 @@ namespace APIGenerator.DataLayer
         /// <summary>
         /// DI enabled constructor
         /// </summary>
-        /// <param name="Logger"></param>
+        /// <param name="Logger">Injected Logger object</param>
         public JSONFileReader(ILogger<JSONFileReader> Logger)
         {
             _Logger = Logger;

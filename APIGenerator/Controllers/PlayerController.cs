@@ -24,7 +24,7 @@ namespace APIGenerator.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Operation to request all Players stored
         /// </summary>
         /// <returns></returns>
         // GET api/values
