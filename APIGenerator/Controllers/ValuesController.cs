@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace APIGenerator.Controllers
 {
+    /// <summary>
+    /// TODO - this file is to be removed as values is only temporary
+    /// </summary>
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
