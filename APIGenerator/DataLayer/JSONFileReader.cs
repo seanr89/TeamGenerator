@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using APIGenerator.Models.Utility;
 using APIGenerator.Utilities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace APIGenerator.DataLayer
@@ -37,11 +38,11 @@ namespace APIGenerator.DataLayer
         /// </summary>
         /// <param name="Type">the FileType to read (based on an enum)</param>
         /// <returns>A string object ("") object if no file can be found</returns>
-        public string ReadFileContentsForContentType(FileType Type)
+        public string ReadFileContentsForContentType(IHostingEnvironment env, FileType Type)
         {
             _Logger.LogInformation(LoggingEvents.METHOD_CALL, $"Method: {UtilityMethods.GetCallerMemberName()}");
             string result = "";
-            string FileLocation = GenerateFileLocationFromType(Type);
+            string FileLocation = GenerateFileLocationFromType(env, Type);
             FileStream File = new  FileStream(FileLocation, FileMode.Open);
 
             try
@@ -65,11 +66,11 @@ namespace APIGenerator.DataLayer
         /// </summary>
         /// <param name="Type"></param>
         /// <returns></returns>
-        string GenerateFileLocationFromType(FileType Type)
+        string GenerateFileLocationFromType(IHostingEnvironment env, FileType Type)
         {
             string FileLocation = "";
-            string location = @"..\APIGenerator\Data\";
-            FileLocation = String.Format("{0}{1}.json", location, GetFileNameFromFileType(Type));
+            string location = $"{env.ContentRootPath}/Data";
+            FileLocation = String.Format("{0}/{1}.json", location, GetFileNameFromFileType(Type));
             return FileLocation;
         }
 

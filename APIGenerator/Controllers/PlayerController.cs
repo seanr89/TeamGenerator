@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using APIGenerator.DataLayer;
 using APIGenerator.Models;
 using APIGenerator.Utilities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,13 +15,16 @@ namespace APIGenerator.Controllers
     public class PlayerController : Controller
     {
         private readonly ILogger _Logger;
+        private readonly IHostingEnvironment _HostingEnvironment;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public PlayerController(ILogger<PlayerController> logger)
+        public PlayerController(ILogger<PlayerController> logger,
+            IHostingEnvironment HostingEnvironment)
         {
             _Logger = logger;
+            _HostingEnvironment = HostingEnvironment;
         }
 
         /// <summary>
@@ -31,8 +35,9 @@ namespace APIGenerator.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            //_Logger.LogInformation("Get called");
             JSONFileReader reader = new JSONFileReader();
-            string FileContents = reader.ReadFileContentsForContentType(FileType.PLAYER);
+            string FileContents = reader.ReadFileContentsForContentType(_HostingEnvironment, FileType.PLAYER);
 
             if(string.IsNullOrWhiteSpace(FileContents))
             {
