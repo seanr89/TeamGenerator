@@ -92,7 +92,12 @@ namespace APIGenerator.DataLayer
                 }
                 case FileType.TEAM:
                 {
-                    result = "Teams";
+                    result = "Team";
+                    break;
+                }
+                case FileType.DAY:
+                {
+                    result = "Day";
                     break;
                 }
                 default:
@@ -114,7 +119,8 @@ namespace APIGenerator.DataLayer
     {
         PLAYER,
         TEAM,
-        RATING
+        RATING,
+        DAY
 
     }
 }
