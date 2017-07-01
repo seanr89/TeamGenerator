@@ -1,4 +1,5 @@
 
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,6 +23,24 @@ namespace APIGenerator.Controllers
             _Logger = Logger;
         }
 
-        
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return BadRequest();
+        }
+
+        // GET api/values/5
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+
+        [HttpPost]
+        public IActionResult DaysInRange([FromBody]DateTime StartDate, [FromBody]DateTime EndDate)
+        {
+            return BadRequest();
+        }
     }
 }
