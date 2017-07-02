@@ -15,14 +15,17 @@ namespace APIGenerator.DataLayer
     public class JSONFileReader
     {
         public readonly ILogger _Logger;
+        private readonly IHostingEnvironment _HostingEnv;
         
         /// <summary>
         /// DI enabled constructor
         /// </summary>
         /// <param name="Logger">Injected Logger object</param>
-        public JSONFileReader(ILogger<JSONFileReader> Logger)
+        public JSONFileReader(ILogger<JSONFileReader> logger,
+            IHostingEnvironment hostingEnv)
         {
-            _Logger = Logger;
+            _Logger = logger;
+            _HostingEnv = hostingEnv;
         }
 
         /// <summary>
@@ -38,11 +41,11 @@ namespace APIGenerator.DataLayer
         /// </summary>
         /// <param name="Type">the FileType to read (based on an enum)</param>
         /// <returns>A string object ("") object if no file can be found</returns>
-        public string ReadFileContentsForContentType(IHostingEnvironment env, FileType Type)
+        public string ReadFileContentsForContentType(FileType Type)
         {
             _Logger.LogInformation(LoggingEvents.METHOD_CALL, $"Method: {UtilityMethods.GetCallerMemberName()}");
             string result = "";
-            string FileLocation = GenerateFileLocationFromType(env, Type);
+            string FileLocation = GenerateFileLocationFromType(_HostingEnv, Type);
             FileStream File = new  FileStream(FileLocation, FileMode.Open);
 
             try

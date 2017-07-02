@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIGenerator.DataLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,9 @@ namespace APIGenerator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Location for class DI Injection
+            services.AddScoped<JSONFileReader>();
+
             // Add framework services.
             services.AddMvc();
         }
@@ -36,6 +40,15 @@ namespace APIGenerator
         {
             //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            if(env.IsDevelopment())
+            {
+
+            }
+            else
+            {
+
+            }
 
             app.UseMvc();
         }

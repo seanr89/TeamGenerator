@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace APIGenerator.Utilities
 {
@@ -99,7 +100,9 @@ namespace APIGenerator.Utilities
             }
             try
             {
-                result = JsonConvert.DeserializeObject<T>(json);
+                var format = "dd-MM-yyyy"; // your datetime format
+                var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = format };
+                result = JsonConvert.DeserializeObject<T>(json, dateTimeConverter);
                 return (T)(object) result;
             }
             catch(JsonSerializationException e)

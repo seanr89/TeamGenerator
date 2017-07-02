@@ -16,15 +16,16 @@ namespace APIGenerator.Controllers
     {
         private readonly ILogger _Logger;
         private readonly IHostingEnvironment _HostingEnvironment;
+        private readonly JSONFileReader _DataFileReader;
 
         /// <summary>
         /// Constructor
         /// </summary>
         public PlayerController(ILogger<PlayerController> logger,
-            IHostingEnvironment HostingEnvironment)
+            JSONFileReader dataFileReader)
         {
             _Logger = logger;
-            _HostingEnvironment = HostingEnvironment;
+            _DataFileReader = dataFileReader;
         }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace APIGenerator.Controllers
         {
             //_Logger.LogInformation("Get called");
             JSONFileReader reader = new JSONFileReader();
-            string FileContents = reader.ReadFileContentsForContentType(_HostingEnvironment, FileType.PLAYER);
+            string FileContents = reader.ReadFileContentsForContentType(FileType.PLAYER);
 
             if(string.IsNullOrWhiteSpace(FileContents))
             {
