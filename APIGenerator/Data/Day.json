@@ -4,11 +4,59 @@
         "Date" : "27-06-2017",
         "TeamOne": 
         {
-            "ID": "1"
+            "ID": "1",
+            "Players":
+            [
+                {
+                    "ID" : 1,
+                    "Name": "Sean Rafferty",
+                    "Paid": true
+                },
+                {
+                    "ID" : 2,
+                    "Name": "Stephen Kelso",
+                    "Paid": true
+                },
+                {
+                    "ID" : 7,
+                    "Name": "Francy Donald"
+                },
+                {
+                    "ID": "8",
+                    "Name": "Jamie Loughran"
+                },
+                {
+                    "ID": "9",
+                    "Name": "Christopher McShane"
+                }
+            ]
         },
         "TeamTwo": 
         {
-            "ID": "2"
+            "ID": "2",
+            "Players":
+            [
+                {
+                    "ID" : 4,
+                    "Name": "Ryan Gavin"
+                },
+                {
+                    "ID" : 5,
+                    "Name": "Stefan Lee"
+                },
+                {
+                    "ID": "10",
+                    "Name": "Mark Latten"
+                },
+                {
+                    "ID": "11",
+                    "Name": "Sean Mills"
+                },
+                {
+                    "ID": "12",
+                    "Name": "Michael Hayes"
+                }
+            ]   
         }
     },
     {
@@ -16,11 +64,37 @@
         "Date" : "20-06-2017",        
         "TeamOne": 
         {
-            "ID": "3"
+            "ID": "3",
+            "Players":
+            [
+                {
+                    "ID" : 1,
+                    "Name": "Sean Rafferty",
+                    "Paid": true
+                },
+                {
+                    "ID" : 2,
+                    "Name": "Stephen Kelso",
+                    "Paid": true
+                }
+            ]
         },
         "TeamTwo": 
         {
-            "ID": "4"
+            "ID": "4",
+            "Players":
+            [
+                {
+                    "ID" : 1,
+                    "Name": "Sean Rafferty",
+                    "Paid": true
+                },
+                {
+                    "ID" : 2,
+                    "Name": "Stephen Kelso",
+                    "Paid": true
+                }
+            ]
         }
     }
 ]

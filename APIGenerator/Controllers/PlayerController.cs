@@ -63,5 +63,10 @@ namespace APIGenerator.Controllers
             }
         }
         
+        [HttpPost]
+        public IActionResult Post([FromBody] Player player)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

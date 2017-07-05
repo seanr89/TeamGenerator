@@ -77,12 +77,6 @@ namespace APIGenerator.Utilities
             return date.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        // public static object ConvertJsonStringToObject(string json)
-        // {
-        //     throw new NotImplementedException();
-            
-        // }
-
         /// <summary>
         /// static operation to convert a json object to a provided object type
         /// </summary>
