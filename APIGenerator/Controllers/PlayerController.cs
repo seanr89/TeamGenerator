@@ -67,6 +67,10 @@ namespace APIGenerator.Controllers
         public IActionResult Post([FromBody] Player player)
         {
             throw new NotImplementedException();
+
+            string JSONPlayer = UtilityMethods.ConvertObjectToJSONString(player);
+
+            //Now we need to open and read in the file contents
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using APIGenerator.Models.Utility;
 
 namespace APIGenerator.Utilities
 {
@@ -104,6 +105,26 @@ namespace APIGenerator.Utilities
                 _Logger.LogError("1", $"Exception with method {UtilityMethods.GetCallerMemberName()} with exception: {e.Message}");
                 return default(T);
             }
+        }
+
+        /// <summary>
+        /// Static method to serialise the provided object to JSON string output
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string ConvertObjectToJSONString(object obj)
+        {
+            string result = "";
+
+            try
+            {
+                result = JsonConvert.SerializeObject(obj);
+            }
+            catch(JsonSerializationException e)
+            {
+                _Logger.LogError(LoggingEvents.GENERIC_ERROR, $"Exception with method {UtilityMethods.GetCallerMemberName()} with exception: {e.Message}");
+            }
+            return result;
         }
     }
 }
