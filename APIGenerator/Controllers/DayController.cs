@@ -24,7 +24,6 @@ namespace APIGenerator.Controllers
         /// </summary>
         private readonly ILogger _Logger;
         private readonly JSONFileReader _DataFileReader;
-
         private readonly IDayRepository _DayRepository;
 
         /// <summary>
@@ -67,6 +66,11 @@ namespace APIGenerator.Controllers
             }
         }
 
+        /// <summary>
+        /// Operation to get the Day operation by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/values/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -92,7 +96,12 @@ namespace APIGenerator.Controllers
             }
         }
 
-
+        /// <summary>
+        /// POST operation to request a collection of Day objects available within a date range
+        /// </summary>
+        /// <param name="StartDate"></param>
+        /// <param name="EndDate"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult DaysInRange([FromBody]DateTime StartDate, [FromBody]DateTime EndDate)
         {
@@ -118,6 +127,11 @@ namespace APIGenerator.Controllers
             }
         }
 
+        /// <summary>
+        /// POST operation to handle the creation and storage of a new day
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
         [HttpPost]
         //[Route("NewDay")]
         public IActionResult CreateNewDay([FromBody] Day day)

@@ -17,12 +17,22 @@ namespace APIGenerator.Repository
 
         private readonly JSONFileReader _DataFileReader;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="Logger"></param>
+        /// <param name="DataFileReader"></param>
         public DayRepository(ILogger<DayRepository> Logger, JSONFileReader DataFileReader)
         {
             _Logger = Logger;
             _DataFileReader = DataFileReader;
         }
 
+        /// <summary>
+        /// Operation to add a new day to the data store
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
         public int AddNewDay(Day day)
         {
             throw new NotImplementedException();
