@@ -5,9 +5,11 @@ using System.Linq;
 using APIGenerator.DataLayer;
 using APIGenerator.Models;
 using APIGenerator.Models.Utility;
+using APIGenerator.Repository.Intefaces;
 using APIGenerator.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace APIGenerator.Controllers
 {
@@ -22,6 +24,8 @@ namespace APIGenerator.Controllers
         /// </summary>
         private readonly ILogger _Logger;
         private readonly JSONFileReader _DataFileReader;
+
+        private readonly IDayRepository _DayRepository;
 
         /// <summary>
         /// Constructor
@@ -40,18 +44,11 @@ namespace APIGenerator.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            string DayFileContents = _DataFileReader.ReadFileContentsForContentType(FileType.DAY);
-
-            if(string.IsNullOrWhiteSpace(DayFileContents))
-            {
-                return NotFound();
-            }
-
             IEnumerable<Day> Days = null;
 
             try
             {
-                Days = UtilityMethods.ConvertJsonStringToProvidedGenericType<IEnumerable<Day>>(DayFileContents);
+                Days = _DayRepository.GetAllDays();
                 if(Days == null || Days.Count() <= 0)
                 {
                     return NotFound();
@@ -60,12 +57,6 @@ namespace APIGenerator.Controllers
                 {
                     //Ok we can return the standard days for now
                     return Ok(Days);
-
-                    //But what we want to do is actually go and parse the teams as well
-                    string TeamsFileContents = _DataFileReader.ReadFileContentsForContentType(FileType.TEAM);
-
-                    //Then we want to parse the players on each team
-                    string PlayersFileContents = _DataFileReader.ReadFileContentsForContentType(FileType.PLAYER);
                 }
             }
             catch(Exception e)
@@ -74,22 +65,64 @@ namespace APIGenerator.Controllers
                 _Logger.LogError(LoggingEvents.GENERIC_ERROR, $"Error in method {UtilityMethods.GetCallerMemberName()} with exception {e.Message}");
                 return BadRequest();
             }
-
-            return BadRequest();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            Day model = null;
+            try
+            {
+                model = _DayRepository.GetDayByID(id);
+                if(model == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    //Ok we can return the standard days for now
+                    return Ok(model);
+                }
+            }
+            catch(JsonSerializationException e)
+            {
+                _Logger.LogError(LoggingEvents.GENERIC_ERROR, $"Error in method {UtilityMethods.GetCallerMemberName()} with exception {e.Message}");
+                return BadRequest();
+            }
         }
 
 
         [HttpPost]
         public IActionResult DaysInRange([FromBody]DateTime StartDate, [FromBody]DateTime EndDate)
         {
-            return BadRequest();
+            IEnumerable<Day> Days = null;
+            try
+            {
+                Days = _DayRepository.GetDaysInDateRange(StartDate, EndDate);
+                if(Days == null || Days.Count() <= 0)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    //Ok we can return the standard days for now
+                    return Ok(Days);
+                }
+            }
+            catch(Exception e)
+            {
+                //TODO - Log the error and change from default Exceptioj
+                _Logger.LogError(LoggingEvents.GENERIC_ERROR, $"Error in method {UtilityMethods.GetCallerMemberName()} with exception {e.Message}");
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        //[Route("NewDay")]
+        public IActionResult CreateNewDay([FromBody] Day day)
+        {
+            throw new NotImplementedException();
         }
     }
 }
