@@ -51,9 +51,7 @@ namespace APIGenerator.Repository
             {
                 return ModelList;
             }
-
-            IEnumerable<Day> Days = null;
-
+            
             try
             {
                 ModelList = (List<Day>)UtilityMethods.ConvertJsonStringToProvidedGenericType<IEnumerable<Day>>(DayFileContents);
@@ -70,11 +68,10 @@ namespace APIGenerator.Repository
         /// Operation to get the first stored Day by "Unique" ID
         /// </summary>
         /// <param name="ID"></param>
-        /// <returns></returns>
+        /// <returns>An individual Day object</returns>
         public Day GetDayByID(int ID)
         {
             Day Result = null;
-
             try
             {
                 IEnumerable<Day> AllDays = GetAllDays();
@@ -95,13 +92,12 @@ namespace APIGenerator.Repository
         /// <summary>
         /// Operation to get all stored Days by date range
         /// </summary>
-        /// <param name="Start"></param>
-        /// <param name="End"></param>
-        /// <returns></returns>
+        /// <param name="Start">The date to start the search</param>
+        /// <param name="End">The date to end the search</param>
+        /// <returns>A collection of Day objects</returns>
         public IEnumerable<Day> GetDaysInDateRange(DateTime Start, DateTime End)
         {
             List<Day> Result = null;
-
             try
             {
                 IEnumerable<Day> AllDays = GetAllDays();

@@ -10,5 +10,7 @@ namespace APIGenerator.Models.Utility
         public const int GENERIC_ERROR = 0001;
 
         public const int METHOD_CALL = 0002;
+
+        public const int INFORMATION = 0003;
     }
 }

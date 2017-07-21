@@ -30,10 +30,12 @@ namespace APIGenerator.Controllers
         /// Constructor
         /// </summary>
         public DayController(ILogger<DayController> Logger,
-            JSONFileReader dataFileReader)
+            JSONFileReader dataFileReader,
+            IDayRepository DayRepository)
         {
             _Logger = Logger;
             _DataFileReader = dataFileReader;
+            _DayRepository = DayRepository;
         }
 
         /// <summary>
