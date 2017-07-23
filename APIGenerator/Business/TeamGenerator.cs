@@ -58,7 +58,7 @@ namespace APIGenerator.Business
                 //Check if the player count is even
                 if(!IsEven(Players.Count()))
                 {
-                    _Logger.LogInformation(LoggingEvents.INFORMATION, $"Player count is not even, with count {Players.Count}");
+                    _Logger.LogInformation(LoggingEvents.INFORMATION, $"Player count is not even, with count {Players.Count()}");
                 }
 
                 //Initialise all of the corresponding objects
@@ -67,7 +67,7 @@ namespace APIGenerator.Business
                 TeamTwo = new Team();
 
                 //Ok shuffle the players with a utility call
-                UtilityMethods.Shuffle(Players);
+                UtilityMethods.Shuffle<Player>(Players.ToList());
 
                 //Use boolean variable to highlight if the previous player was added to team one
                 bool AddedToTeamOne = false;

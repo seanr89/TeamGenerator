@@ -127,7 +127,7 @@ namespace APIGenerator.Utilities
             return result;
         }
 
-        public static void Shuffle<T>(this IList<T> list)
+        public static void Shuffle<T>(IList<T> list)
         {
             Random rng = new Random(); 
 
