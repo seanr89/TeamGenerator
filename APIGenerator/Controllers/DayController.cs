@@ -143,8 +143,16 @@ namespace APIGenerator.Controllers
         //[Route("NewDay")]
         public IActionResult CreateNewDay([FromBody] Day day)
         {
-            throw new NotImplementedException();
-            //Add the day to the reader
+            int result = _DayRepository.AddNewDay(day);
+
+            if(result == 1)
+            {
+                return Ok("Day added");
+            }
+            else
+            {
+                return BadRequest("Failed to add day");
+            }
 
         }
 
