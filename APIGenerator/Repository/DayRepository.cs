@@ -35,7 +35,15 @@ namespace APIGenerator.Repository
         /// <returns></returns>
         public int AddNewDay(Day day)
         {
-            throw new NotImplementedException();
+            IEnumerable<Day> ModelList = GetAllDays();
+
+            ModelList.Append(day);
+
+            string JSONObject = UtilityMethods.ConvertObjectToJSONString(ModelList);
+
+            int result = _DataFileReader.WriteToFileForType(JSONObject, FileType.DAY);
+
+            return result;
         }
 
         /// <summary>

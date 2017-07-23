@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIGenerator.Business;
 using APIGenerator.DataLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using APIGenerator.Business.Interfaces;
 
 namespace APIGenerator
 {
@@ -30,6 +32,7 @@ namespace APIGenerator
         {
             //Location for class DI Injection
             services.AddScoped<JSONFileReader>();
+            services.AddScoped<ITeamGenerator, TeamGenerator>();
 
             // Add framework services.
             services.AddMvc();

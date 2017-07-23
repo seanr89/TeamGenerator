@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using APIGenerator.Business;
+using APIGenerator.Business.Interfaces;
 using APIGenerator.DataLayer;
 using APIGenerator.Models;
 using APIGenerator.Models.Utility;
@@ -25,17 +27,20 @@ namespace APIGenerator.Controllers
         private readonly ILogger _Logger;
         private readonly JSONFileReader _DataFileReader;
         private readonly IDayRepository _DayRepository;
+        private readonly ITeamGenerator _TeamGenerator;
 
         /// <summary>
         /// Constructor
         /// </summary>
         public DayController(ILogger<DayController> Logger,
             JSONFileReader dataFileReader,
-            IDayRepository DayRepository)
+            IDayRepository DayRepository,
+            ITeamGenerator TeamGenerator)
         {
             _Logger = Logger;
             _DataFileReader = dataFileReader;
             _DayRepository = DayRepository;
+            _TeamGenerator = TeamGenerator;
         }
 
         /// <summary>
@@ -103,7 +108,7 @@ namespace APIGenerator.Controllers
         /// </summary>
         /// <param name="StartDate"></param>
         /// <param name="EndDate"></param>
-        /// <returns></returns>
+        /// <returns>An IActionResult with the number of days in range</returns>
         [HttpPost]
         public IActionResult DaysInRange([FromBody]DateTime StartDate, [FromBody]DateTime EndDate)
         {
@@ -139,6 +144,33 @@ namespace APIGenerator.Controllers
         public IActionResult CreateNewDay([FromBody] Day day)
         {
             throw new NotImplementedException();
+            //Add the day to the reader
+
+        }
+
+        /// <summary>
+        /// Operation to POST a group of players and a date and to return a playing day
+        /// </summary>
+        /// <param name="Players">Collection of players to sort</param>
+        /// <param name="Date">The date to generate it on</param>
+        /// <returns>An IActionResult</returns>
+        public IActionResult CreateDayForPlayersOnDate([FromBody] IEnumerable<Player> Players, [FromBody]DateTime Date)
+        {
+            IEnumerable<Team> Teams = _TeamGenerator.CreateRandomTeamsFromPlayerList(Players);
+
+            Day Result = new Day();
+
+            if(Teams != null && Teams.Count() > 0)
+            {
+                //Set the date of the Day
+                Result.Date = Date;
+
+                Result.TeamOne = Teams.ToList()[0];
+                Result.TeamTwo = Teams.ToList()[1];
+
+                return Ok(Result);
+            }
+            return NotFound();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using APIGenerator.Models;
 using APIGenerator.Models.Utility;
 using APIGenerator.Utilities;
 using Microsoft.AspNetCore.Hosting;
@@ -112,7 +113,29 @@ namespace APIGenerator.DataLayer
             return result;
         }
 
-    }
+        /// <summary>
+        /// Operation to write/append contents to file based on file type
+        /// </summary>
+        /// <param name="objModel"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int WriteToFileForType(string objModel, FileType type)
+        {
+            string fileLocation = GenerateFileLocationFromType(_HostingEnv, type);
+
+            try
+            {
+                File.WriteAllText(fileLocation, objModel);
+                return 1;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
+    } //End of class
 
 
     /// <summary>

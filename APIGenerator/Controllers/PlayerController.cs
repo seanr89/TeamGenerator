@@ -15,7 +15,6 @@ namespace APIGenerator.Controllers
     public class PlayerController : Controller
     {
         private readonly ILogger _Logger;
-        private readonly IHostingEnvironment _HostingEnvironment;
         private readonly JSONFileReader _DataFileReader;
 
         /// <summary>
