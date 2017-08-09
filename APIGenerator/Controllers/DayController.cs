@@ -25,7 +25,6 @@ namespace APIGenerator.Controllers
         /// private Logger object
         /// </summary>
         private readonly ILogger _Logger;
-        private readonly JSONFileReader _DataFileReader;
         private readonly IDayRepository _DayRepository;
         private readonly ITeamGenerator _TeamGenerator;
 
@@ -33,12 +32,10 @@ namespace APIGenerator.Controllers
         /// Constructor
         /// </summary>
         public DayController(ILogger<DayController> Logger,
-            JSONFileReader dataFileReader,
             IDayRepository DayRepository,
             ITeamGenerator TeamGenerator)
         {
             _Logger = Logger;
-            _DataFileReader = dataFileReader;
             _DayRepository = DayRepository;
             _TeamGenerator = TeamGenerator;
         }
@@ -51,7 +48,6 @@ namespace APIGenerator.Controllers
         public IActionResult Get()
         {
             IEnumerable<Day> Days = null;
-
             try
             {
                 Days = _DayRepository.GetAllDays();
@@ -65,9 +61,9 @@ namespace APIGenerator.Controllers
                     return Ok(Days);
                 }
             }
-            catch(Exception e)
+            catch(JsonSerializationException e)
             {
-                //TODO - Log the error and change from default Exceptioj
+                //TODO - Log the error and change from default Exception
                 _Logger.LogError(LoggingEvents.GENERIC_ERROR, $"Error in method {UtilityMethods.GetCallerMemberName()} with exception {e.Message}");
                 return BadRequest();
             }
@@ -106,8 +102,8 @@ namespace APIGenerator.Controllers
         /// <summary>
         /// POST operation to request a collection of Day objects available within a date range
         /// </summary>
-        /// <param name="StartDate"></param>
-        /// <param name="EndDate"></param>
+        /// <param name="StartDate">The date to start the filter/search</param>
+        /// <param name="EndDate">The date to end the filter/search</param>
         /// <returns>An IActionResult with the number of days in range</returns>
         [HttpPost]
         public IActionResult DaysInRange([FromBody]DateTime StartDate, [FromBody]DateTime EndDate)
@@ -162,6 +158,7 @@ namespace APIGenerator.Controllers
         /// <param name="Players">Collection of players to sort</param>
         /// <param name="Date">The date to generate it on</param>
         /// <returns>An IActionResult</returns>
+        [HttpPost]
         public IActionResult CreateDayForPlayersOnDate([FromBody] IEnumerable<Player> Players, [FromBody]DateTime Date)
         {
             IEnumerable<Team> Teams = _TeamGenerator.CreateRandomTeamsFromPlayerList(Players);

@@ -35,12 +35,13 @@ namespace APIGenerator.Repository
         /// <returns></returns>
         public int AddNewDay(Day day)
         {
+            //Request all current days added to the system
             IEnumerable<Day> ModelList = GetAllDays();
-
+            //Append the new day to the list
             ModelList.Append(day);
-
+            //Convert the upgraded list to a JSON object
             string JSONObject = UtilityMethods.ConvertObjectToJSONString(ModelList);
-
+            //Write the contents to a file
             int result = _DataFileReader.WriteToFileForType(JSONObject, FileType.DAY);
 
             return result;

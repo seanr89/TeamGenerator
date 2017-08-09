@@ -50,7 +50,7 @@ namespace APIGenerator.Utilities
             }
             catch (IndexOutOfRangeException)
             {
-                //_Logger.LogError(LoggingEvents.GENERAL_ERROR, $"Method: {UtilityMethods.GetCallerMemberName()} for column {columnName}");
+                _Logger.LogError(LoggingEvents.GENERIC_ERROR, $"Method: {UtilityMethods.GetCallerMemberName()} for column {columnName}");
                 return false;
             }
         }
@@ -110,12 +110,11 @@ namespace APIGenerator.Utilities
         /// <summary>
         /// Static method to serialise the provided object to JSON string output
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">a generic object to be serialised into a JSON object</param>
+        /// <returns>A string serialized object</returns>
         public static string ConvertObjectToJSONString(object obj)
         {
             string result = "";
-
             try
             {
                 result = JsonConvert.SerializeObject(obj);
@@ -127,10 +126,13 @@ namespace APIGenerator.Utilities
             return result;
         }
 
+        /// <summary>
+        /// Static method to handle the "Randox" shuffling of a list of objects
+        /// </summary>
+        /// <param name="list"></param>
         public static void Shuffle<T>(IList<T> list)
         {
             Random rng = new Random(); 
-
             int n = list.Count;  
             while (n > 1) 
             {  
