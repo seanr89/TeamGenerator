@@ -170,6 +170,7 @@ namespace APIGenerator.Controllers
                 //Set the date of the Day
                 Result.Date = Date;
 
+                //Initialise both teams
                 Result.TeamOne = Teams.ToList()[0];
                 Result.TeamTwo = Teams.ToList()[1];
 
