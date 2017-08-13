@@ -39,7 +39,8 @@ namespace APIGenerator.Repository.Interfaces
         /// <summary>
         /// Interface operation to return the next ID to be used
         /// </summary>
+        /// <param name="Players"></param>
         /// <returns></returns>
-        int GetNextPlayerID();
+        int GetNextPlayerID(IEnumerable<Player> Players);
     }
 }

@@ -16,6 +16,11 @@ namespace APIGenerator.Repository
         private readonly ILogger _Logger;
         private readonly JSONFileReader _DataFileAccessor;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="Logger"></param>
+        /// <param name="DataFileAccessor"></param>
         public PlayerRepository(ILogger<PlayerRepository> Logger,
             JSONFileReader DataFileAccessor)
         {
@@ -23,9 +28,39 @@ namespace APIGenerator.Repository
             _DataFileAccessor = DataFileAccessor;
         }
 
+        /// <summary>
+        /// Operation to handle the insertion of a new player into the system
+        /// </summary>
+        /// <param name="player">The player object to add</param>
+        /// <returns>An integer value to denote if success or not</returns>
         public int CreatePlayer(Player player)
         {
-            throw new NotImplementedException();
+            try
+            {
+                IEnumerable<Player> ModelList = GetAllPlayers();
+
+                //next increment the player ID value
+                int NewPlayerID = GetNextPlayerID(ModelList);
+                //ensure that an ID was discovered
+                if(NewPlayerID != -1)
+                {
+                    player.ID = NewPlayerID;
+                }
+
+                //Append the new day to the list
+                ModelList.Append(player);
+                //Convert the upgraded list to a JSON object
+                string JSONObject = UtilityMethods.ConvertObjectToJSONString(ModelList);
+                //Write the contents to a file
+                int result = _DataFileAccessor.WriteToFileForType(JSONObject, FileType.PLAYER);
+
+                return result;
+            }
+            catch(JsonSerializationException e)
+            {
+                //TODO - log stuff
+                return -1;
+            }
         }
 
         public int DeletePlayer(Player player)
@@ -37,7 +72,7 @@ namespace APIGenerator.Repository
         /// Operation to request and return all Known Players
         /// </summary>
         /// <returns>An IEumerable of Player objects</returns>
-        IEnumerable<Player> GetAllPlayers()
+        public IEnumerable<Player> GetAllPlayers()
         {
             string DayFileContents = _DataFileAccessor.ReadFileContentsForContentType(FileType.DAY);
             List<Player> ModelList = null;
@@ -62,22 +97,23 @@ namespace APIGenerator.Repository
         /// <summary>
         /// Operation to request the highest ID in the player list and to return next increment
         /// </summary>
+        /// <param name="Players"></param>
         /// <returns>-1 returned if not found</returns>
-        int IPlayerRepository.GetNextPlayerID()
+        public int GetNextPlayerID(IEnumerable<Player> Players)
         {
             try
             {
-                List<Player> ModelList = GetAllPlayers().ToList();
-                var result = ModelList.OrderByDescending(p => p.ID).FirstOrDefault();
+                var result = Players.OrderByDescending(p => p.ID).FirstOrDefault();
                 if(result != null)
                 {
                     return result.ID + 1;
                 }
                 return -1;
             }
-            catch(JsonSerializationException e)
+            catch(ArgumentNullException e)
             {
-                _Logger.LogError(LoggingEvents.GENERIC_ERROR, $"Error in method {UtilityMethods.GetCallerMemberName()} with exception {e.Message}");
+                _Logger.LogError(LoggingEvents.GENERIC_ERROR, $"Error in method {UtilityMethods.GetCallerMemberName()} " +
+                "with exception {e.Message}");
                 throw e;
             }
         }

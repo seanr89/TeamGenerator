@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using APIGenerator.DataLayer;
 using APIGenerator.Models;
+using APIGenerator.Repository.Interfaces;
 using APIGenerator.Utilities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -15,16 +16,17 @@ namespace APIGenerator.Controllers
     public class PlayerController : Controller
     {
         private readonly ILogger _Logger;
-        private readonly JSONFileReader _DataFileReader;
+        private readonly IPlayerRepository _PlayerRepository;
 
         /// <summary>
         /// Constructor
         /// </summary>
         public PlayerController(ILogger<PlayerController> logger,
-            JSONFileReader dataFileReader)
+            IPlayerRepository playerRepository)
         {
             _Logger = logger;
-            _DataFileReader = dataFileReader;
+            //_DataFileReader = dataFileReader;
+            _PlayerRepository = playerRepository;
         }
 
         /// <summary>
@@ -36,40 +38,43 @@ namespace APIGenerator.Controllers
         public IActionResult Get()
         {
             //_Logger.LogInformation("Get called");
-            JSONFileReader reader = new JSONFileReader();
-            string FileContents = reader.ReadFileContentsForContentType(FileType.PLAYER);
-
-            if(string.IsNullOrWhiteSpace(FileContents))
-            {
-                return NotFound();
-            }
-
-            IEnumerable<Player> Players;
             try
             {
-               Players = UtilityMethods.ConvertJsonStringToProvidedGenericType<IEnumerable<Player>>(FileContents);
-               if(Players == null && Players.Count() <= 0)
-               {
-                   return NotFound();
-               }
-               return Ok(Players);
+                IEnumerable<Player> ModelList = _PlayerRepository.GetAllPlayers();
+                if(ModelList != null)
+                {
+                    return Ok(ModelList);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch(Exception e)
             {
                 //TODO - Log the error
                 _Logger.LogError("1", $"Error in method {UtilityMethods.GetCallerMemberName()} with exception {e.Message}");
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Post([FromBody] Player player)
         {
-            throw new NotImplementedException();
-
-            string JSONPlayer = UtilityMethods.ConvertObjectToJSONString(player);
-
-            //Now we need to open and read in the file contents
+            int result = _PlayerRepository.CreatePlayer(player);
+            if(result == 1)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
     }
 }
