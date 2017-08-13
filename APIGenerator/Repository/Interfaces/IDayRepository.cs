@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using APIGenerator.Models;
 
-namespace APIGenerator.Repository.Intefaces
+namespace APIGenerator.Repository.Interfaces
 {
     public interface IDayRepository
     {

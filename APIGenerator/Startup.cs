@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using APIGenerator.Business.Interfaces;
+using APIGenerator.Repository.Interfaces;
+using APIGenerator.Repository;
 
 namespace APIGenerator
 {
@@ -33,6 +35,8 @@ namespace APIGenerator
             //Location for class DI Injection
             services.AddScoped<JSONFileReader>();
             services.AddScoped<ITeamGenerator, TeamGenerator>();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IDayRepository, DayRepository>();
 
             // Add framework services.
             services.AddMvc();

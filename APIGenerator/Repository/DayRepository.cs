@@ -4,7 +4,7 @@ using System.Linq;
 using APIGenerator.DataLayer;
 using APIGenerator.Models;
 using APIGenerator.Models.Utility;
-using APIGenerator.Repository.Intefaces;
+using APIGenerator.Repository.Interfaces;
 using APIGenerator.Utilities;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -36,9 +36,9 @@ namespace APIGenerator.Repository
         public int AddNewDay(Day day)
         {
             //Request all current days added to the system
-            IEnumerable<Day> ModelList = GetAllDays();
+            List<Day> ModelList = GetAllDays().ToList();
             //Append the new day to the list
-            ModelList.Append(day);
+            ModelList.Add(day);
             //Convert the upgraded list to a JSON object
             string JSONObject = UtilityMethods.ConvertObjectToJSONString(ModelList);
             //Write the contents to a file

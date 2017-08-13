@@ -37,7 +37,7 @@ namespace APIGenerator.Repository
         {
             try
             {
-                IEnumerable<Player> ModelList = GetAllPlayers();
+                List<Player> ModelList = GetAllPlayers().ToList();
 
                 //next increment the player ID value
                 int NewPlayerID = GetNextPlayerID(ModelList);
@@ -48,7 +48,7 @@ namespace APIGenerator.Repository
                 }
 
                 //Append the new day to the list
-                ModelList.Append(player);
+                ModelList.Add(player);
                 //Convert the upgraded list to a JSON object
                 string JSONObject = UtilityMethods.ConvertObjectToJSONString(ModelList);
                 //Write the contents to a file
@@ -74,7 +74,7 @@ namespace APIGenerator.Repository
         /// <returns>An IEumerable of Player objects</returns>
         public IEnumerable<Player> GetAllPlayers()
         {
-            string DayFileContents = _DataFileAccessor.ReadFileContentsForContentType(FileType.DAY);
+            string DayFileContents = _DataFileAccessor.ReadFileContentsForContentType(FileType.PLAYER);
             List<Player> ModelList = null;
 
             if(string.IsNullOrWhiteSpace(DayFileContents))

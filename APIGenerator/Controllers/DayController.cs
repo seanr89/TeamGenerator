@@ -7,7 +7,7 @@ using APIGenerator.Business.Interfaces;
 using APIGenerator.DataLayer;
 using APIGenerator.Models;
 using APIGenerator.Models.Utility;
-using APIGenerator.Repository.Intefaces;
+using APIGenerator.Repository.Interfaces;
 using APIGenerator.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
