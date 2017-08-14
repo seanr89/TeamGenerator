@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using APIGenerator.Business.Interfaces;
 using APIGenerator.Repository.Interfaces;
 using APIGenerator.Repository;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace APIGenerator
 {
@@ -32,6 +33,18 @@ namespace APIGenerator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(options =>
+            {
+                options.DescribeAllEnumsAsStrings();
+                options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Title = "Test HTTP API",
+                    Version = "v1",
+                    Description = "The Tests Service HTTP API",
+                    TermsOfService = "Terms Of Service"
+                });
+            });
+
             //Location for class DI Injection
             services.AddScoped<JSONFileReader>();
             services.AddScoped<ITeamGenerator, TeamGenerator>();
@@ -57,7 +70,15 @@ namespace APIGenerator
 
             }
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
+            //app.UseMvc();
+
+            app.UseSwagger()
+               .UseSwaggerUI(c =>
+               {
+                   c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                   c.ConfigureOAuth2("marketingswaggerui", "", "", "Marketing Swagger UI");
+               }); 
         }
     }
 }

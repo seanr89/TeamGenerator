@@ -143,5 +143,15 @@ namespace APIGenerator.Utilities
                 list[n] = value;  
             }  
         }
+
+        /// <summary>
+        /// Operation to check if the provided integer value is Even
+        /// </summary>
+        /// <param name="value">Integer value to compare</param>
+        /// <returns>A Boolean True/False response</returns>
+        public static bool IsEven(int value)
+        {
+            return value % 2 == 0;
+        }
     }
 }
