@@ -9,6 +9,7 @@ using APIGenerator.Utilities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace APIGenerator.Controllers
 {
@@ -25,7 +26,6 @@ namespace APIGenerator.Controllers
             IPlayerRepository playerRepository)
         {
             _Logger = logger;
-            //_DataFileReader = dataFileReader;
             _PlayerRepository = playerRepository;
         }
 
@@ -50,19 +50,18 @@ namespace APIGenerator.Controllers
                     return NotFound();
                 }
             }
-            catch(Exception e)
+            catch(JsonSerializationException e)
             {
-                //TODO - Log the error
                 _Logger.LogError("1", $"Error in method {UtilityMethods.GetCallerMemberName()} with exception {e.Message}");
                 return BadRequest(e.Message);
             }
         }
         
         /// <summary>
-        /// 
+        /// POST operation to create/insert a new player object
         /// </summary>
-        /// <param name="player"></param>
-        /// <returns></returns>
+        /// <param name="player">A player object model</param>
+        /// <returns>An IActionResult</returns>
         [HttpPost]
         public IActionResult Post([FromBody] Player player)
         {

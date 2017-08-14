@@ -154,6 +154,7 @@ namespace APIGenerator.Controllers
 
         /// <summary>
         /// Operation to POST a group of players and a date and to return a playing day
+        /// with a random order/grouping of teams
         /// </summary>
         /// <param name="Players">Collection of players to sort</param>
         /// <param name="Date">The date to generate it on</param>
@@ -170,7 +171,7 @@ namespace APIGenerator.Controllers
                 //Set the date of the Day
                 Result.Date = Date;
 
-                //Initialise both teams
+                //Initialise both teams and populate
                 Result.TeamOne = Teams.ToList()[0];
                 Result.TeamTwo = Teams.ToList()[1];
 

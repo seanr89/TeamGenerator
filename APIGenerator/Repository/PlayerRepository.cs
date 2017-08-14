@@ -37,6 +37,7 @@ namespace APIGenerator.Repository
         {
             try
             {
+                //Request all players and convert to the list item
                 List<Player> ModelList = GetAllPlayers().ToList();
 
                 //next increment the player ID value
@@ -53,16 +54,22 @@ namespace APIGenerator.Repository
                 string JSONObject = UtilityMethods.ConvertObjectToJSONString(ModelList);
                 //Write the contents to a file
                 int result = _DataFileAccessor.WriteToFileForType(JSONObject, FileType.PLAYER);
-
+                //return the output of the file write
                 return result;
             }
             catch(JsonSerializationException e)
             {
                 //TODO - log stuff
+                _Logger.LogError(LoggingEvents.GENERIC_ERROR, $"exception caught in method {UtilityMethods.GetCallerMemberName()} with exception {e.Message}");
                 return -1;
             }
         }
 
+        /// <summary>
+        /// TODO - currently not implemented
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public int DeletePlayer(Player player)
         {
             throw new NotImplementedException();

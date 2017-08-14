@@ -1,10 +1,10 @@
 
 namespace APIGenerator.Models
 {
-    public class Style
+    public enum Style
     {
-        public int ID { get; set; }
-
-        public string Name { get; set; }
+        RUNNER,
+        DEFENDER,
+        SKILLFULL
     }
 }

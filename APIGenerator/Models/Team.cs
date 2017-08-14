@@ -9,5 +9,7 @@ namespace APIGenerator.Models
         public int ID { get; set; }
 
         public List<Player> Players { get; set; }
+
+        public int Goals {get; set;}
     }
 }
