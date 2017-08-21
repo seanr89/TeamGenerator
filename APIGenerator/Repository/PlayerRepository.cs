@@ -29,6 +29,16 @@ namespace APIGenerator.Repository
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="DataFileAccessor"></param>
+        public PlayerRepository(JSONFileReader DataFileAccessor)
+        {
+            _Logger = ApplicationLoggerProvider.CreateLogger<PlayerRepository>();
+            _DataFileAccessor = DataFileAccessor;
+        }
+
+        /// <summary>
         /// Operation to handle the insertion of a new player into the system
         /// </summary>
         /// <param name="player">The player object to add</param>

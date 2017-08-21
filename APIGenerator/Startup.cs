@@ -13,6 +13,7 @@ using APIGenerator.Business.Interfaces;
 using APIGenerator.Repository.Interfaces;
 using APIGenerator.Repository;
 using Swashbuckle.AspNetCore.Swagger;
+using APIGenerator.Filters;
 
 namespace APIGenerator
 {
@@ -52,7 +53,10 @@ namespace APIGenerator
             services.AddScoped<IDayRepository, DayRepository>();
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(HttpGlobalExceptionFilter));         
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

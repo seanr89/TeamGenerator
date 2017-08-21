@@ -18,7 +18,7 @@ namespace APIGenerator.Repository
         private readonly JSONFileReader _DataFileReader;
 
         /// <summary>
-        /// Constructor
+        /// DI Constructor
         /// </summary>
         /// <param name="Logger"></param>
         /// <param name="DataFileReader"></param>
@@ -26,6 +26,16 @@ namespace APIGenerator.Repository
         {
             _Logger = Logger;
             _DataFileReader = DataFileReader;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="DataFileAccessor"></param>
+        public DayRepository(JSONFileReader DataFileAccessor)
+        {
+            _Logger = ApplicationLoggerProvider.CreateLogger<PlayerRepository>();
+            _DataFileReader = DataFileAccessor;
         }
 
         /// <summary>
