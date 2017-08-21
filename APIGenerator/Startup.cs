@@ -14,6 +14,8 @@ using APIGenerator.Repository.Interfaces;
 using APIGenerator.Repository;
 using Swashbuckle.AspNetCore.Swagger;
 using APIGenerator.Filters;
+using APIGenerator.Factories;
+using APIGenerator.Factories.Interfaces;
 
 namespace APIGenerator
 {
@@ -47,10 +49,19 @@ namespace APIGenerator
             });
 
             //Location for class DI Injection
-            services.AddScoped<JSONFileReader>();
             services.AddScoped<ITeamGenerator, TeamGenerator>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IDayRepository, DayRepository>();
+
+            if (Configuration.GetValue<bool>("DatabaseConnectionOptions:SQLAzure"))
+            {
+                services.AddScoped<IDataRepositoryFactory, SQLDataRepositoryFactory>();
+            }
+            else
+            {
+                services.AddScoped<JSONFileReader>();
+                services.AddScoped<IDataRepositoryFactory, JSONDataRepositoryFactory>();
+            }
 
             // Add framework services.
             services.AddMvc(options =>

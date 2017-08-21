@@ -45,6 +45,22 @@ namespace APIGenerator.Business
                 ModelList = new List<Team>();
                 TeamOne = new Team();
                 TeamTwo = new Team();
+
+                //Ok shuffle the players with a utility call
+                //Please note we may not need this here!!!
+                //UtilityMethods.Shuffle<Player>(Players.ToList());
+
+                //Use boolean variable to highlight if the previous player was added to team one
+                bool AddedToTeamOne = false;
+
+                //Initialise the rating for both teams
+                double TeamOneRating, TeamTwoRating = 0.0;
+
+                //Now we can loop through the players
+                foreach(Player player in Players)
+                {
+                    
+                }
             }
 
             return ModelList;
