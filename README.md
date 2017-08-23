@@ -3,6 +3,8 @@ A Team calculator repo to handle a local team generator for 5 a side outside and
 
 This is currently only a pet project of mine, using some crummy json files as a test bed for storing content
 
+Test site is available at the following: http://teamgeneratorapi.azurewebsites.net
+
 The planned future work is thus:
 1. Complete docker file
 2. Move to SQL Server for hosting
