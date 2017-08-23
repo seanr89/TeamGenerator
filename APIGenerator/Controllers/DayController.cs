@@ -136,7 +136,7 @@ namespace APIGenerator.Controllers
         /// <param name="day"></param>
         /// <returns></returns>
         [HttpPost]
-        //[Route("NewDay")]
+        [Route("NewDay")]
         public IActionResult CreateNewDay([FromBody] Day day)
         {
             int result = _DayRepository.AddNewDay(day);
@@ -160,6 +160,7 @@ namespace APIGenerator.Controllers
         /// <param name="Date">The date to generate it on</param>
         /// <returns>An IActionResult</returns>
         [HttpPost]
+        [Route("CreateDayForPlayersOnDate")]
         public IActionResult CreateDayForPlayersOnDate([FromBody] IEnumerable<Player> Players, [FromBody]DateTime Date)
         {
             IEnumerable<Team> Teams = _TeamGenerator.CreateRandomTeamsFromPlayerList(Players);
