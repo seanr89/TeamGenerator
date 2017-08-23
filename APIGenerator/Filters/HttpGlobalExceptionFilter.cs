@@ -1,6 +1,8 @@
 
 using System;
 using System.Net;
+using APIGenerator.Exceptions;
+using APIGenerator.Infrastructure.ActionResults;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -30,44 +32,43 @@ namespace APIGenerator.Filters
         /// <summary>
         /// Handle OnException Message
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">Exception context</param>
         public void OnException(ExceptionContext context)
         {
-            throw new NotImplementedException();
-
             _Logger.LogError(new EventId(context.Exception.HResult),
                 context.Exception,
                 context.Exception.Message);
 
-            // if (context.Exception.GetType() == typeof(OrderingDomainException)) 
-            // {
-            //     var json = new JsonErrorResponse
-            //     {
-            //         Messages = new[] { context.Exception.Message }
-            //     };
+            //Check for the type of exception being executed (N.B> I don't think this exception is caught or thrown anywhere yet!)
+            if (context.Exception.GetType() == typeof(TeamGenerationException)) 
+            {
+                var json = new JsonErrorResponse
+                {
+                    Messages = new[] { context.Exception.Message }
+                };
 
-            //     // Result asigned to a result object but in destiny the response is empty. This is a known bug of .net core 1.1
-            //     //It will be fixed in .net core 1.1.2. See https://github.com/aspnet/Mvc/issues/5594 for more information
-            //     context.Result = new BadRequestObjectResult(json);
-            //     context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            // }
-            // else
-            // {
-            //     var json = new JsonErrorResponse
-            //     {
-            //         Messages = new[] { "An error occur.Try it again." }
-            //     };
+                // Result asigned to a result object but in destiny the response is empty. This is a known bug of .net core 1.1
+                //It will be fixed in .net core 1.1.2. See https://github.com/aspnet/Mvc/issues/5594 for more information
+                context.Result = new BadRequestObjectResult(json);
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
+            else
+            {
+                var json = new JsonErrorResponse
+                {
+                    Messages = new[] { "An error occur.Try it again." }
+                };
 
-            //     if (_Env.IsDevelopment())
-            //     {
-            //         json.DeveloperMessage = context.Exception;
-            //     }
+                if (_Env.IsDevelopment())
+                {
+                    json.DeveloperMessage = context.Exception;
+                }
 
-            //     // Result asigned to a result object but in destiny the response is empty. This is a known bug of .net core 1.1
-            //     // It will be fixed in .net core 1.1.2. See https://github.com/aspnet/Mvc/issues/5594 for more information
-            //     context.Result = new InternalServerErrorObjectResult(json);
-            //     context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            // }
+                // Result asigned to a result object but in destiny the response is empty. This is a known bug of .net core 1.1
+                // It will be fixed in .net core 1.1.2. See https://github.com/aspnet/Mvc/issues/5594 for more information
+                context.Result = new InternalServerErrorObjectResult(json);
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
             context.ExceptionHandled = true;
         }
     }

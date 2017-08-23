@@ -8,6 +8,7 @@ namespace APIGenerator.Controllers
 {
     /// <summary>
     /// TODO - this file is to be removed as values is only temporary
+    /// Using it only to help out some stuff!!
     /// </summary>
     [Route("api/[controller]")]
     public class ValuesController : Controller

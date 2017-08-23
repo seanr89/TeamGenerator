@@ -24,6 +24,12 @@ namespace APIGenerator.Business
         {
             _Logger = Logger;
         }
+
+        /// <summary>
+        /// Operation to handle the generation of two unique teams that are balanced by average player rating
+        /// </summary>
+        /// <param name="Players"></param>
+        /// <returns></returns>
         public IEnumerable<Team> CreateRandomTeamsFromPlayerList(IEnumerable<Player> Players)
         {
             throw new NotImplementedException();
@@ -50,6 +56,9 @@ namespace APIGenerator.Business
                 //Please note we may not need this here!!!
                 //UtilityMethods.Shuffle<Player>(Players.ToList());
 
+                //it could be useful to sort players by rating!!
+                Players = SortPlayersByRating(Players).ToList();
+
                 //Use boolean variable to highlight if the previous player was added to team one
                 bool AddedToTeamOne = false;
 
@@ -59,7 +68,7 @@ namespace APIGenerator.Business
                 //Now we can loop through the players
                 foreach(Player player in Players)
                 {
-                    
+
                 }
             }
 
@@ -80,6 +89,21 @@ namespace APIGenerator.Business
                 result = true;
             }
             return result;
+        }
+
+        /// <summary>
+        /// Operation to sort all players by the rating starting from highest to lowest
+        /// </summary>
+        /// <param name="players"></param>
+        /// <returns></returns>
+        IEnumerable<Player> SortPlayersByRating(IEnumerable<Player> players)
+        {
+            return players.ToList().OrderBy(p => p.Rating);
+        }
+
+        double CalculateTeamRatingAverage(Team team)
+        {
+            throw new NotImplementedException();
         }
     }
 }

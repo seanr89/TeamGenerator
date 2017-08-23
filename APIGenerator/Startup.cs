@@ -36,14 +36,15 @@ namespace APIGenerator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Configure Swagger documentation handling
             services.AddSwaggerGen(options =>
             {
                 options.DescribeAllEnumsAsStrings();
                 options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
                 {
-                    Title = "Test HTTP API",
+                    Title = "Team Generation API",
                     Version = "v1",
-                    Description = "The Tests Service HTTP API",
+                    Description = "The Team Generation Service HTTP API",
                     TermsOfService = "Terms Of Service"
                 });
             });
@@ -53,6 +54,7 @@ namespace APIGenerator
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IDayRepository, DayRepository>();
 
+            //Run through App Settings to search for what repository could be used in the future!
             if (Configuration.GetValue<bool>("DatabaseConnectionOptions:SQLAzure"))
             {
                 services.AddScoped<IDataRepositoryFactory, SQLDataRepositoryFactory>();
