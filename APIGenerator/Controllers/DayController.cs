@@ -29,7 +29,7 @@ namespace APIGenerator.Controllers
         private readonly ITeamGenerator _TeamGenerator;
 
         /// <summary>
-        /// Constructor
+        /// Constructor with DI injection
         /// </summary>
         public DayController(ILogger<DayController> Logger,
             IDayRepository DayRepository,
@@ -136,7 +136,7 @@ namespace APIGenerator.Controllers
         /// <param name="day"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("NewDay")]
+        [Route("NewMatchDay")]
         public IActionResult CreateNewDay([FromBody] Day day)
         {
             int result = _DayRepository.AddNewDay(day);

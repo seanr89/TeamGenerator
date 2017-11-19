@@ -27,9 +27,10 @@ namespace APIGenerator.Business
 
         /// <summary>
         /// Operation to handle the generation of two unique teams that are balanced by average player rating
+        /// Not yet implemented
         /// </summary>
         /// <param name="Players"></param>
-        /// <returns></returns>
+        /// <returns>NotImplementedException</returns>
         public IEnumerable<Team> CreateRandomTeamsFromPlayerList(IEnumerable<Player> Players)
         {
             throw new NotImplementedException();
@@ -94,8 +95,8 @@ namespace APIGenerator.Business
         /// <summary>
         /// Operation to sort all players by the rating starting from highest to lowest
         /// </summary>
-        /// <param name="players"></param>
-        /// <returns></returns>
+        /// <param name="players">a collection of players</param>
+        /// <returns>A sorted list of players</returns>
         IEnumerable<Player> SortPlayersByRating(IEnumerable<Player> players)
         {
             return players.ToList().OrderBy(p => p.Rating);

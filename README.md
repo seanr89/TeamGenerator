@@ -14,3 +14,6 @@ The planned future work is thus:
 6. App development (Android)
 7. Look at mobile cross development platforms
 8. React or React Native Apps
+
+In Development
+1. Android Application
